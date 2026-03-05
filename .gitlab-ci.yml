@@ -18,6 +18,8 @@ build:
 
 pages:
   stage: deploy
+  needs:
+    - build
   script:
     - mv dist public
   artifacts:
