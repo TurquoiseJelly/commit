@@ -1,0 +1,17 @@
+<section class="intro">
+  {{{content}}}
+</section>
+{{#if posts.length}}
+<section class="post-list">
+  <h2>Recent Posts</h2>
+  <ul>
+    {{#each posts}}
+    <li>
+      <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+      <time>{{formatDate this.date}}</time>
+      {{#if this.description}}<p>{{this.description}}</p>{{/if}}
+    </li>
+    {{/each}}
+  </ul>
+</section>
+{{/if}}

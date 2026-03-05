@@ -88,7 +88,3 @@ build:
 - **GitHub Pages** — configured via `.github/workflows/deploy.yml`
 
 Both pipelines run: install, audit, validate, build, deploy.
-
-## License
-
-ISC
