@@ -1,11 +1,13 @@
 import { readFileSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
 import { loadContent } from './content.js';
 import { renderMarkdown } from './renderer.js';
 import { loadTemplates, render } from './templates.js';
 import { copyAssets } from './assets.js';
 
+export function build() {
 const config = yaml.load(readFileSync('config.yaml', 'utf-8'));
 const outputDir = config.build.outputDir;
 
@@ -61,3 +63,8 @@ for (const page of pages) {
 copyAssets(config);
 
 console.log(`Built ${posts.length} posts and ${pages.length} pages to ${outputDir}/`);
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  build();
+}
