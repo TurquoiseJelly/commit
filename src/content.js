@@ -13,6 +13,6 @@ export function loadContent(contentDir) {
       const rel = relative(contentDir, filePath);
       const collection = rel.split('/')[0];
       const slug = basename(f, '.md');
-      return { slug, frontmatter: data, body: content, collection };
+      return { slug, frontmatter: data, body: content, collection, filePath: rel };
     });
 }
