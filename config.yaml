@@ -1,0 +1,10 @@
+site:
+  title: "FlatPress"
+  description: "A lightweight, Git-backed, Markdown-driven static site."
+  baseUrl: "/"
+  language: "en"
+theme: "default"
+build:
+  contentDir: "content"
+  outputDir: "dist"
+  staticDir: "static"
