@@ -1,3 +1,12 @@
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 export function generateSitemap(pages, posts, config, tagMap, totalPages) {
   const baseUrl = config.site.baseUrl;
 
@@ -9,7 +18,7 @@ export function generateSitemap(pages, posts, config, tagMap, totalPages) {
   const urls = [];
 
   const addUrl = (loc, lastmod) => {
-    urls.push(`  <url>\n    <loc>${baseUrl}${loc}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}\n  </url>`);
+    urls.push(`  <url>\n    <loc>${escapeXml(baseUrl + loc)}</loc>${lastmod ? `\n    <lastmod>${escapeXml(lastmod)}</lastmod>` : ''}\n  </url>`);
   };
 
   // Homepage

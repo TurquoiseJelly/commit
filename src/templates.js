@@ -13,7 +13,11 @@ Handlebars.registerHelper('formatDate', (date) => {
 
 Handlebars.registerHelper('eq', (a, b) => a === b);
 
-Handlebars.registerHelper('slugify', (str) => String(str).toLowerCase().replace(/\s+/g, '-'));
+export function slugifyTag(str) {
+  return String(str).toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+
+Handlebars.registerHelper('slugify', slugifyTag);
 
 export function loadTemplates(themeName) {
   const dir = join('themes', themeName, 'templates');

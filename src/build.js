@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
 import { loadContent } from './content.js';
 import { renderMarkdown } from './renderer.js';
-import { loadTemplates, render } from './templates.js';
+import { loadTemplates, render, slugifyTag } from './templates.js';
 import { copyAssets } from './assets.js';
 import { generateFeed } from './feed.js';
 import { generateSitemap } from './sitemap.js';
@@ -94,7 +94,7 @@ for (let page = 1; page <= totalPages; page++) {
 const tagMap = {};
 for (const post of posts) {
   for (const tag of post.frontmatter.tags || []) {
-    const slug = tag.toLowerCase().replace(/\s+/g, '-');
+    const slug = slugifyTag(tag);
     if (!tagMap[slug]) tagMap[slug] = { name: tag, posts: [] };
     tagMap[slug].posts.push(post);
   }
@@ -126,7 +126,7 @@ for (const page of pages) {
   };
 
   if (template === 'index') {
-    data.posts = posts.slice(0, 5).map(postData);
+    data.posts = posts.slice(0, postsPerPage).map(postData);
   }
 
   const html = render(template, data);

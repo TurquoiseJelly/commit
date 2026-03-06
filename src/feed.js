@@ -3,7 +3,8 @@ function escapeXml(str) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
 export function generateFeed(posts, config, renderMarkdown) {
@@ -28,7 +29,7 @@ export function generateFeed(posts, config, renderMarkdown) {
     <id>${escapeXml(url)}</id>
     <updated>${date}</updated>${post.frontmatter.description ? `
     <summary>${escapeXml(post.frontmatter.description)}</summary>` : ''}
-    <content type="html"><![CDATA[${content}]]></content>
+    <content type="html"><![CDATA[${content.replace(/]]>/g, ']]]]><![CDATA[>')}]]></content>
   </entry>`;
   }).join('\n');
 

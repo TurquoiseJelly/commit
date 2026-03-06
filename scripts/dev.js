@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { readFileSync, existsSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { join, extname, resolve } from 'node:path';
 import { watch } from 'chokidar';
 import livereload from 'livereload';
 import { build } from '../src/build.js';
@@ -42,15 +42,23 @@ const server = createServer((req, res) => {
     filePath += '.html';
   }
 
+  // Path traversal guard
+  const resolvedDist = resolve(DIST);
+  if (!resolve(filePath).startsWith(resolvedDist + '/') && resolve(filePath) !== resolvedDist) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
+    res.end('403 Forbidden');
+    return;
+  }
+
   if (!existsSync(filePath)) {
     const notFoundPage = join(DIST, '404.html');
     if (existsSync(notFoundPage)) {
       let body404 = readFileSync(notFoundPage, 'utf-8');
       body404 = body404.replace('</body>', `${LR_SCRIPT}\n</body>`);
-      res.writeHead(404, { 'Content-Type': 'text/html' });
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
       res.end(body404);
     } else {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end('404 Not Found');
     }
     return;
@@ -58,6 +66,7 @@ const server = createServer((req, res) => {
 
   const ext = extname(filePath);
   const contentType = CONTENT_TYPES[ext] || 'application/octet-stream';
+  const charset = contentType.startsWith('text/') ? '; charset=utf-8' : '';
   let body = readFileSync(filePath);
 
   // Inject livereload script into HTML responses
@@ -65,7 +74,7 @@ const server = createServer((req, res) => {
     body = body.toString().replace('</body>', `${LR_SCRIPT}\n</body>`);
   }
 
-  res.writeHead(200, { 'Content-Type': contentType });
+  res.writeHead(200, { 'Content-Type': contentType + charset });
   res.end(body);
 });
 

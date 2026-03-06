@@ -13,7 +13,7 @@ export function validateAll() {
   try {
     config = yaml.load(readFileSync('config.yaml', 'utf-8'));
   } catch {
-    return ['config.yaml: could not parse YAML'];
+    return { errors: ['config.yaml: could not parse YAML'], warnings: [] };
   }
 
   for (const key of ['site', 'theme', 'build']) {
@@ -40,11 +40,11 @@ export function validateAll() {
     const themeDir = join('themes', config.theme, 'templates');
     if (!existsSync(themeDir)) {
       errors.push(`config.yaml: theme "${config.theme}" not found — directory "${themeDir}" does not exist`);
-      return errors;
+      return { errors, warnings };
     }
   }
 
-  if (!config.build?.contentDir || !config.theme) return errors;
+  if (!config.build?.contentDir || !config.theme) return { errors, warnings };
 
   // Content validation
   const items = loadContent(config.build.contentDir);

@@ -6,6 +6,9 @@ read -rp "Post title: " title
 # Generate slug from title
 slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
 
+# Escape double quotes for YAML safety
+safe_title="${title//\"/\\\"}"
+
 date=$(date +%Y-%m-%d)
 filepath="content/blog/${slug}.md"
 
@@ -16,7 +19,7 @@ fi
 
 cat > "$filepath" <<EOF
 ---
-title: "${title}"
+title: "${safe_title}"
 date: ${date}
 template: blog
 description: ""
