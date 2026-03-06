@@ -4,7 +4,7 @@ site:
   # Set to an absolute URL (e.g. "https://example.com/") for deployment — required for feed, sitemap, and canonical URLs
   baseUrl: "/"
   language: "en"
-theme: "midnight"
+theme: "default"
 blog:
   postsPerPage: 5
   feedLimit: 20
