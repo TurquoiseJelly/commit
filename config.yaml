@@ -3,7 +3,7 @@ site:
   description: "A lightweight, Git-backed, Markdown-driven static site."
   baseUrl: "/"
   language: "en"
-theme: "default"
+theme: "midnight"
 blog:
   postsPerPage: 5
   feedLimit: 20
