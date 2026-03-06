@@ -2,11 +2,11 @@
 title: "About"
 date: 2026-03-05
 template: page
-description: "Learn more about FlatPress."
+description: "Learn more about Commit."
 tags: []
-author: "FlatPress"
+author: "Commit"
 ---
 
-# About FlatPress
+# About Commit
 
-FlatPress is a lightweight static site generator that uses Markdown files and Git for content management.
+Commit is a lightweight static site generator that uses Markdown files and Git for content management.

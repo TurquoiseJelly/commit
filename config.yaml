@@ -1,5 +1,5 @@
 site:
-  title: "FlatPress"
+  title: "Commit"
   description: "A lightweight, Git-backed, Markdown-driven static site."
   # Set to an absolute URL (e.g. "https://example.com/") for deployment — required for feed, sitemap, and canonical URLs
   baseUrl: "/"

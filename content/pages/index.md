@@ -1,12 +1,12 @@
 ---
-title: "Welcome to FlatPress"
+title: "Welcome to Commit"
 date: 2026-03-05
 template: index
-description: "The homepage of your FlatPress site."
+description: "The homepage of your Commit site."
 tags: []
-author: "FlatPress"
+author: "Commit"
 ---
 
-# Welcome to FlatPress
+# Welcome to Commit
 
 A lightweight, Git-backed, Markdown-driven static site CMS.

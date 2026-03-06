@@ -1,4 +1,4 @@
-# FlatPress
+# Commit
 
 A lightweight, Git-backed, Markdown-driven static site generator. No database, no admin panel — just Markdown files, Handlebars templates, and a single `npm run build`.
 
@@ -105,7 +105,7 @@ All settings live in `config.yaml`:
 
 ```yaml
 site:
-  title: "FlatPress"
+  title: "Commit"
   description: "A lightweight, Git-backed, Markdown-driven static site."
   # Set to an absolute URL for deployment (e.g. "https://example.com/")
   # Required for feed, sitemap, canonical URLs, and Open Graph tags
@@ -125,7 +125,7 @@ build:
 
 ## Themes
 
-FlatPress ships with three themes:
+Commit ships with three themes:
 
 | Theme | Description |
 |---|---|

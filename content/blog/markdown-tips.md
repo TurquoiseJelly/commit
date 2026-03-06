@@ -6,9 +6,9 @@ description: "Helpful tips for writing Markdown content."
 tags:
   - markdown
   - tips
-author: "FlatPress"
+author: "Commit"
 ---
 
 # Markdown Tips
 
-Here are some useful tips for writing great Markdown content for your FlatPress site.
+Here are some useful tips for writing great Markdown content for your Commit site.
