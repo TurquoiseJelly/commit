@@ -35,7 +35,8 @@ jobs:
       - run: npm run validate
 
       - name: Set baseUrl for GitHub Pages
-        run: sed -i "s|baseUrl:.*|baseUrl: \"${{ steps.pages.outputs.base_url }}/\"|" config.yaml
+        run: |
+          sed -i "s|baseUrl:.*|baseUrl: \"${{ steps.pages.outputs.base_url }}/\"|" config.yaml
 
       - run: npm run build
 
