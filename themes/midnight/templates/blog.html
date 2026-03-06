@@ -1,0 +1,17 @@
+<article class="mn-post">
+  <header class="mn-post-header">
+    <h1>{{title}}</h1>
+    <div class="mn-post-meta">
+      <time>{{formatDate date}}</time>
+      {{#if author}}<span class="mn-author">by {{author}}</span>{{/if}}
+    </div>
+    {{#if tags.length}}
+    <div class="mn-tags">
+      {{#each tags}}<a href="{{../site.baseUrl}}blog/tags/{{this}}/"><span class="mn-tag">{{this}}</span></a>{{/each}}
+    </div>
+    {{/if}}
+  </header>
+  <div class="mn-post-content">
+    {{{content}}}
+  </div>
+</article>

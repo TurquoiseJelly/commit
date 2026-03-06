@@ -1,0 +1,15 @@
+<section class="hk-intro">
+  {{{content}}}
+</section>
+{{#if posts.length}}
+<section class="hk-listing">
+  <h2>## Recent Posts</h2>
+  {{#each posts}}
+  <div class="hk-entry">
+    <span class="hk-prompt">&gt;</span>
+    <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+    <time>[{{formatDate this.date}}]</time>
+  </div>
+  {{/each}}
+</section>
+{{/if}}

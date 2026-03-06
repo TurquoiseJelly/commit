@@ -1,0 +1,15 @@
+<section class="hk-listing">
+  <h1>{{title}}</h1>
+  {{#each posts}}
+  <div class="hk-entry">
+    <span class="hk-prompt">&gt;</span>
+    <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+    <time>[{{formatDate this.date}}]</time>
+  </div>
+  {{/each}}
+  <nav class="hk-pagination">
+    {{#if pagination.prevUrl}}<a href="{{pagination.prevUrl}}">[&lt; newer]</a>{{/if}}
+    <span>-- page {{pagination.current}}/{{pagination.total}} --</span>
+    {{#if pagination.nextUrl}}<a href="{{pagination.nextUrl}}">[older &gt;]</a>{{/if}}
+  </nav>
+</section>

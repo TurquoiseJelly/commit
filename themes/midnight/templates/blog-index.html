@@ -1,0 +1,15 @@
+<section class="mn-posts">
+  <h1>{{title}}</h1>
+  {{#each posts}}
+  <article class="mn-card">
+    <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+    <time>{{formatDate this.date}}</time>
+    {{#if this.description}}<p>{{this.description}}</p>{{/if}}
+  </article>
+  {{/each}}
+  <nav class="mn-pagination">
+    {{#if pagination.prevUrl}}<a href="{{pagination.prevUrl}}">&laquo; Newer</a>{{/if}}
+    <span>Page {{pagination.current}} of {{pagination.total}}</span>
+    {{#if pagination.nextUrl}}<a href="{{pagination.nextUrl}}">Older &raquo;</a>{{/if}}
+  </nav>
+</section>

@@ -1,0 +1,11 @@
+<section class="mn-posts">
+  <h1>Posts tagged "{{tag}}"</h1>
+  {{#each posts}}
+  <article class="mn-card">
+    <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+    <time>{{formatDate this.date}}</time>
+    {{#if this.description}}<p>{{this.description}}</p>{{/if}}
+  </article>
+  {{/each}}
+  <p><a href="{{site.baseUrl}}blog/">&larr; All posts</a></p>
+</section>

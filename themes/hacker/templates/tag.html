@@ -1,0 +1,11 @@
+<section class="hk-listing">
+  <h1>grep -t "{{tag}}"</h1>
+  {{#each posts}}
+  <div class="hk-entry">
+    <span class="hk-prompt">&gt;</span>
+    <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+    <time>[{{formatDate this.date}}]</time>
+  </div>
+  {{/each}}
+  <p><a href="{{site.baseUrl}}blog/">cd ..</a></p>
+</section>

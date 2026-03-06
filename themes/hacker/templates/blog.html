@@ -1,0 +1,17 @@
+<article class="hk-post">
+  <header class="hk-post-header">
+    <h1>{{title}}</h1>
+    <div class="hk-post-meta">
+      <time>[{{formatDate date}}]</time>
+      {{#if author}}<span class="hk-author">-- {{author}}</span>{{/if}}
+    </div>
+    {{#if tags.length}}
+    <div class="hk-tags">
+      {{#each tags}}<a href="{{../site.baseUrl}}blog/tags/{{this}}/"><span class="hk-tag">#{{this}}</span></a>{{/each}}
+    </div>
+    {{/if}}
+  </header>
+  <div class="hk-post-content">
+    {{{content}}}
+  </div>
+</article>

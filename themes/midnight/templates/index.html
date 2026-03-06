@@ -1,0 +1,15 @@
+<section class="mn-intro">
+  {{{content}}}
+</section>
+{{#if posts.length}}
+<section class="mn-posts">
+  <h2>Recent Posts</h2>
+  {{#each posts}}
+  <article class="mn-card">
+    <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+    <time>{{formatDate this.date}}</time>
+    {{#if this.description}}<p>{{this.description}}</p>{{/if}}
+  </article>
+  {{/each}}
+</section>
+{{/if}}
