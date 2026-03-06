@@ -1,0 +1,17 @@
+<section class="post-list">
+  <h1>{{title}}</h1>
+  <ul>
+    {{#each posts}}
+    <li>
+      <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+      <time>{{formatDate this.date}}</time>
+      {{#if this.description}}<p>{{this.description}}</p>{{/if}}
+    </li>
+    {{/each}}
+  </ul>
+  <nav class="pagination">
+    {{#if pagination.prevUrl}}<a href="{{pagination.prevUrl}}">&laquo; Newer</a>{{/if}}
+    <span>Page {{pagination.current}} of {{pagination.total}}</span>
+    {{#if pagination.nextUrl}}<a href="{{pagination.nextUrl}}">Older &raquo;</a>{{/if}}
+  </nav>
+</section>

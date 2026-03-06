@@ -7,7 +7,7 @@
     </div>
     {{#if tags.length}}
     <div class="tags">
-      {{#each tags}}<span class="tag">{{this}}</span>{{/each}}
+      {{#each tags}}<a href="{{../site.baseUrl}}blog/tags/{{this}}/"><span class="tag">{{this}}</span></a>{{/each}}
     </div>
     {{/if}}
   </header>

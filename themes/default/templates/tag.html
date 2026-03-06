@@ -1,0 +1,13 @@
+<section class="post-list">
+  <h1>Posts tagged "{{tag}}"</h1>
+  <ul>
+    {{#each posts}}
+    <li>
+      <a href="{{../site.baseUrl}}blog/{{this.slug}}.html">{{this.title}}</a>
+      <time>{{formatDate this.date}}</time>
+      {{#if this.description}}<p>{{this.description}}</p>{{/if}}
+    </li>
+    {{/each}}
+  </ul>
+  <p><a href="{{site.baseUrl}}blog/">&larr; All posts</a></p>
+</section>

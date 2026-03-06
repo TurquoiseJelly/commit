@@ -140,6 +140,18 @@ p code {
   border-radius: 3px;
 }
 
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  margin-top: 1rem;
+  border-top: 1px solid #eee;
+}
+.pagination a { font-weight: 600; }
+.pagination span { color: #666; font-size: 0.875rem; }
+
 /* Footer */
 footer {
   margin-top: 3rem;

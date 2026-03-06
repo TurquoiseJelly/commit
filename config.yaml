@@ -4,6 +4,9 @@ site:
   baseUrl: "/"
   language: "en"
 theme: "default"
+blog:
+  postsPerPage: 5
+  feedLimit: 20
 build:
   contentDir: "content"
   outputDir: "dist"

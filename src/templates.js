@@ -20,7 +20,7 @@ export function loadTemplates(themeName) {
     readFileSync(join(dir, 'layouts', 'base.html'), 'utf-8')
   );
 
-  for (const name of ['index', 'blog', 'page']) {
+  for (const name of ['index', 'blog', 'page', 'blog-index', 'tag']) {
     templates[name] = Handlebars.compile(
       readFileSync(join(dir, `${name}.html`), 'utf-8')
     );
