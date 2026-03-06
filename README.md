@@ -111,7 +111,7 @@ site:
   # Required for feed, sitemap, canonical URLs, and Open Graph tags
   baseUrl: "/"
   language: "en"
-theme: "midnight"       # "default", "midnight", or "hacker"
+theme: "default"       # "default", "midnight", or "hacker"
 blog:
   postsPerPage: 5       # Posts per paginated index page
   feedLimit: 20         # Max posts in Atom feed
@@ -251,7 +251,3 @@ dist/
   robots.txt              # Robots directive with sitemap link
   404.html                # Not-found page
 ```
-
-## License
-
-MIT
