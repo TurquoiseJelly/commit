@@ -1,6 +1,6 @@
 # Commit
 
-A lightweight, Git-backed, Markdown-driven static site generator. No database, no admin panel — just Markdown files, Handlebars templates, and a single `npm run build`.
+  A lightweight, Git-backed, Markdown-driven static site generator. No database, no admin panel — just Markdown files, Handlebars templates, and a single `npm run build`.
 
 ## Features
 
