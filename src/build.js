@@ -10,8 +10,23 @@ import { generateFeed } from './feed.js';
 import { generateSitemap } from './sitemap.js';
 
 export function build() {
-const config = yaml.load(readFileSync('config.yaml', 'utf-8'));
+const startTime = performance.now();
+
+let config;
+try {
+  config = yaml.load(readFileSync('config.yaml', 'utf-8'));
+} catch (err) {
+  console.error(`Error: Could not load config.yaml — ${err.message}`);
+  process.exit(1);
+}
+
 const outputDir = config.build.outputDir;
+
+const absUrl = (path) => {
+  const base = config.site.baseUrl;
+  if (base.startsWith('http')) return `${base.replace(/\/$/, '')}/${path}`;
+  return null;
+};
 
 // Clean and create output directory
 rmSync(outputDir, { recursive: true, force: true });
@@ -34,6 +49,8 @@ for (const post of posts) {
   const content = renderMarkdown(post.body);
   const html = render('blog', {
     ...post.frontmatter, content, site: config.site,
+    canonicalUrl: absUrl(`blog/${post.slug}.html`),
+    ogType: 'article',
   });
   const outPath = join(outputDir, 'blog', `${post.slug}.html`);
   mkdirSync(dirname(outPath), { recursive: true });
@@ -56,11 +73,14 @@ for (let page = 1; page <= totalPages; page++) {
   const prevUrl = page > 1 ? (page === 2 ? `${config.site.baseUrl}blog/` : `${config.site.baseUrl}blog/page/${page - 1}/`) : null;
   const nextUrl = page < totalPages ? `${config.site.baseUrl}blog/page/${page + 1}/` : null;
 
+  const indexPath = page === 1 ? 'blog/' : `blog/page/${page}/`;
   const html = render('blog-index', {
     title: 'Blog',
     posts: pagePosts.map(postData),
     pagination: { current: page, total: totalPages, prevUrl, nextUrl },
     site: config.site,
+    canonicalUrl: absUrl(indexPath),
+    ogType: 'website',
   });
 
   const outPath = page === 1
@@ -86,6 +106,8 @@ for (const [slug, { name, posts: tagPosts }] of Object.entries(tagMap)) {
     title: `Posts tagged "${name}"`,
     posts: tagPosts.map(postData),
     site: config.site,
+    canonicalUrl: absUrl(`blog/tags/${slug}/`),
+    ogType: 'website',
   });
   const outPath = join(outputDir, 'blog', 'tags', slug, 'index.html');
   mkdirSync(dirname(outPath), { recursive: true });
@@ -96,7 +118,12 @@ for (const [slug, { name, posts: tagPosts }] of Object.entries(tagMap)) {
 for (const page of pages) {
   const content = renderMarkdown(page.body);
   const template = page.frontmatter.template || 'page';
-  const data = { ...page.frontmatter, content, site: config.site };
+  const pagePath = template === 'index' ? '' : `${page.slug}.html`;
+  const data = {
+    ...page.frontmatter, content, site: config.site,
+    canonicalUrl: absUrl(pagePath),
+    ogType: 'website',
+  };
 
   if (template === 'index') {
     data.posts = posts.slice(0, 5).map(postData);
@@ -113,13 +140,30 @@ for (const page of pages) {
 writeFileSync(join(outputDir, 'feed.xml'), generateFeed(posts, config, renderMarkdown));
 writeFileSync(join(outputDir, 'sitemap.xml'), generateSitemap(pages, posts, config, tagMap, totalPages));
 
+// 404 page
+const notFoundHtml = render('404', {
+  title: '404 — Not Found',
+  description: 'Page not found',
+  site: config.site,
+  canonicalUrl: null,
+  ogType: 'website',
+});
+writeFileSync(join(outputDir, '404.html'), notFoundHtml);
+
 // Copy assets
 copyAssets(config);
 
 const tagCount = Object.keys(tagMap).length;
-console.log(`Built ${posts.length} posts, ${pages.length} pages, ${totalPages} blog index pages, ${tagCount} tag pages, feed.xml, and sitemap.xml to ${outputDir}/`);
+const elapsed = (performance.now() - startTime).toFixed(0);
+const totalFiles = posts.length + pages.length + totalPages + tagCount + 3; // +3 for feed, sitemap, 404
+console.log(`Built ${totalFiles} files (${posts.length} posts, ${pages.length} pages, ${totalPages} blog index, ${tagCount} tag pages, feed, sitemap, 404) in ${elapsed}ms`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  build();
+  try {
+    build();
+  } catch (err) {
+    console.error(`Build failed: ${err.message}`);
+    process.exit(1);
+  }
 }

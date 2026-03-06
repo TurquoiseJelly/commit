@@ -32,14 +32,27 @@ const server = createServer((req, res) => {
 
   let filePath = join(DIST, urlPath);
 
+  // Try index.html for directory URLs (e.g., /blog/ -> /blog/index.html)
+  if (urlPath.endsWith('/')) {
+    filePath = join(DIST, urlPath, 'index.html');
+  }
+
   // Try appending .html for extension-less URLs
   if (!extname(filePath) && !existsSync(filePath)) {
     filePath += '.html';
   }
 
   if (!existsSync(filePath)) {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('404 Not Found');
+    const notFoundPage = join(DIST, '404.html');
+    if (existsSync(notFoundPage)) {
+      let body404 = readFileSync(notFoundPage, 'utf-8');
+      body404 = body404.replace('</body>', `${LR_SCRIPT}\n</body>`);
+      res.writeHead(404, { 'Content-Type': 'text/html' });
+      res.end(body404);
+    } else {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('404 Not Found');
+    }
     return;
   }
 

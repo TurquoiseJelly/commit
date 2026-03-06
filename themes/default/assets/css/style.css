@@ -152,6 +152,14 @@ p code {
 .pagination a { font-weight: 600; }
 .pagination span { color: #666; font-size: 0.875rem; }
 
+/* 404 */
+.error-page {
+  text-align: center;
+  padding: 4rem 0;
+}
+.error-page h1 { font-size: 2.5rem; }
+.error-page p { margin-top: 1rem; }
+
 /* Footer */
 footer {
   margin-top: 3rem;

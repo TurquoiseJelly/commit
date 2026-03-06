@@ -16,14 +16,24 @@ Handlebars.registerHelper('eq', (a, b) => a === b);
 export function loadTemplates(themeName) {
   const dir = join('themes', themeName, 'templates');
 
-  baseTemplate = Handlebars.compile(
-    readFileSync(join(dir, 'layouts', 'base.html'), 'utf-8')
-  );
+  const loadAndCompile = (filePath) => {
+    let source;
+    try {
+      source = readFileSync(filePath, 'utf-8');
+    } catch (err) {
+      throw new Error(`Template not found: ${filePath}`);
+    }
+    try {
+      return Handlebars.compile(source);
+    } catch (err) {
+      throw new Error(`Template syntax error in ${filePath}: ${err.message}`);
+    }
+  };
 
-  for (const name of ['index', 'blog', 'page', 'blog-index', 'tag']) {
-    templates[name] = Handlebars.compile(
-      readFileSync(join(dir, `${name}.html`), 'utf-8')
-    );
+  baseTemplate = loadAndCompile(join(dir, 'layouts', 'base.html'));
+
+  for (const name of ['index', 'blog', 'page', 'blog-index', 'tag', '404']) {
+    templates[name] = loadAndCompile(join(dir, `${name}.html`));
   }
 }
 

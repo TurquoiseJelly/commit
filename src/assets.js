@@ -6,10 +6,14 @@ export function copyAssets(config) {
   const staticDir = config.build.staticDir;
   const themeAssets = join('themes', config.theme, 'assets');
 
-  if (existsSync(staticDir)) {
-    cpSync(staticDir, outputDir, { recursive: true });
-  }
-  if (existsSync(themeAssets)) {
-    cpSync(themeAssets, join(outputDir, 'assets'), { recursive: true });
+  try {
+    if (existsSync(staticDir)) {
+      cpSync(staticDir, outputDir, { recursive: true });
+    }
+    if (existsSync(themeAssets)) {
+      cpSync(themeAssets, join(outputDir, 'assets'), { recursive: true });
+    }
+  } catch (err) {
+    throw new Error(`Failed to copy assets: ${err.message}`);
   }
 }
