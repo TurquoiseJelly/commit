@@ -27,12 +27,17 @@ jobs:
           node-version: 20
           cache: npm
 
+      - id: pages
+        uses: actions/configure-pages@v5
+
       - run: npm ci
       - run: npm audit --audit-level=moderate
       - run: npm run validate
-      - run: npm run build
 
-      - uses: actions/configure-pages@v5
+      - name: Set baseUrl for GitHub Pages
+        run: sed -i "s|baseUrl:.*|baseUrl: \"${{ steps.pages.outputs.base_url }}/\"|" config.yaml
+
+      - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:

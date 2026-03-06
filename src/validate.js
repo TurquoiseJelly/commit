@@ -6,6 +6,7 @@ import { loadContent } from './content.js';
 
 export function validateAll() {
   const errors = [];
+  const warnings = [];
 
   // Config validation
   let config;
@@ -29,6 +30,20 @@ export function validateAll() {
     }
   }
 
+  // Warn on relative baseUrl
+  if (config.site?.baseUrl && !config.site.baseUrl.startsWith('http')) {
+    warnings.push(`config.yaml: baseUrl "${config.site.baseUrl}" is relative — feed, sitemap, and canonical URLs require an absolute URL for deployment`);
+  }
+
+  // Validate theme directory
+  if (config.theme) {
+    const themeDir = join('themes', config.theme, 'templates');
+    if (!existsSync(themeDir)) {
+      errors.push(`config.yaml: theme "${config.theme}" not found — directory "${themeDir}" does not exist`);
+      return errors;
+    }
+  }
+
   if (!config.build?.contentDir || !config.theme) return errors;
 
   // Content validation
@@ -48,12 +63,25 @@ export function validateAll() {
     }
   }
 
-  return errors;
+  // Slug collision detection
+  const slugMap = {};
+  for (const item of items) {
+    const key = `${item.collection}/${item.slug}`;
+    if (slugMap[key]) {
+      const fp = join(config.build.contentDir, item.filePath);
+      errors.push(`${fp}: slug collision — "${key}" already used by ${slugMap[key]}`);
+    } else {
+      slugMap[key] = join(config.build.contentDir, item.filePath);
+    }
+  }
+
+  return { errors, warnings };
 }
 
 // Standalone runner
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const errors = validateAll();
+  const { errors, warnings } = validateAll();
+  warnings.forEach(w => console.warn(`Warning: ${w}`));
   if (errors.length) {
     errors.forEach(e => console.error(e));
     process.exit(1);

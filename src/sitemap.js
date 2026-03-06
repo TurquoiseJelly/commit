@@ -1,5 +1,11 @@
 export function generateSitemap(pages, posts, config, tagMap, totalPages) {
   const baseUrl = config.site.baseUrl;
+
+  if (!baseUrl.startsWith('http')) {
+    console.warn('Warning: sitemap.xml requires an absolute baseUrl (starting with http). Generating empty sitemap.');
+    return `<?xml version="1.0" encoding="utf-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n</urlset>\n`;
+  }
+
   const urls = [];
 
   const addUrl = (loc, lastmod) => {

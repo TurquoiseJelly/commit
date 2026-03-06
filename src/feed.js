@@ -8,6 +8,12 @@ function escapeXml(str) {
 
 export function generateFeed(posts, config, renderMarkdown) {
   const baseUrl = config.site.baseUrl;
+
+  if (!baseUrl.startsWith('http')) {
+    console.warn('Warning: feed.xml requires an absolute baseUrl (starting with http). Generating empty feed.');
+    return `<?xml version="1.0" encoding="utf-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom">\n  <title>${escapeXml(config.site.title)}</title>\n</feed>\n`;
+  }
+
   const limit = config.blog?.feedLimit || 20;
   const recent = posts.slice(0, limit);
   const updated = recent.length ? new Date(recent[0].frontmatter.date).toISOString() : new Date().toISOString();

@@ -140,6 +140,39 @@ p code {
   border-radius: 3px;
 }
 
+/* Blockquotes */
+blockquote {
+  border-left: 3px solid #0066cc;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #666;
+}
+
+/* Lists */
+ul, ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Pagination */
 .pagination {
   display: flex;

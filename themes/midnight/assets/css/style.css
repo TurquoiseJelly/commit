@@ -152,6 +152,31 @@ blockquote {
   color: #8888a0;
 }
 
+/* Lists */
+ul, ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #3a3b55;
+  text-align: left;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Pagination */
 .mn-pagination {
   display: flex;

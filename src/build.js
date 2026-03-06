@@ -40,7 +40,7 @@ loadTemplates(config.theme);
 const posts = items
   .filter(i => i.collection === 'blog')
   .filter(i => !i.frontmatter.draft)
-  .sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+  .sort((a, b) => { const d = new Date(b.frontmatter.date) - new Date(a.frontmatter.date); return d !== 0 ? d : a.slug.localeCompare(b.slug); });
 
 const pages = items.filter(i => i.collection === 'pages');
 
@@ -150,13 +150,19 @@ const notFoundHtml = render('404', {
 });
 writeFileSync(join(outputDir, '404.html'), notFoundHtml);
 
+// Generate robots.txt
+const robotsLines = ['User-agent: *', 'Allow: /'];
+const sitemapUrl = absUrl('sitemap.xml');
+if (sitemapUrl) robotsLines.push(`Sitemap: ${sitemapUrl}`);
+writeFileSync(join(outputDir, 'robots.txt'), robotsLines.join('\n') + '\n');
+
 // Copy assets
 copyAssets(config);
 
 const tagCount = Object.keys(tagMap).length;
 const elapsed = (performance.now() - startTime).toFixed(0);
-const totalFiles = posts.length + pages.length + totalPages + tagCount + 3; // +3 for feed, sitemap, 404
-console.log(`Built ${totalFiles} files (${posts.length} posts, ${pages.length} pages, ${totalPages} blog index, ${tagCount} tag pages, feed, sitemap, 404) in ${elapsed}ms`);
+const totalFiles = posts.length + pages.length + totalPages + tagCount + 4; // +4 for feed, sitemap, 404, robots.txt
+console.log(`Built ${totalFiles} files (${posts.length} posts, ${pages.length} pages, ${totalPages} blog index, ${tagCount} tag pages, feed, sitemap, robots.txt, 404) in ${elapsed}ms`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

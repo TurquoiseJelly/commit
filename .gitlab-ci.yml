@@ -11,6 +11,7 @@ build:
     - npm ci
     - npm audit --audit-level=moderate
     - npm run validate
+    - sed -i "s|baseUrl:.*|baseUrl: \"${CI_PAGES_URL}/\"|" config.yaml
     - npm run build
   artifacts:
     paths:

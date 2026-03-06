@@ -13,6 +13,8 @@ Handlebars.registerHelper('formatDate', (date) => {
 
 Handlebars.registerHelper('eq', (a, b) => a === b);
 
+Handlebars.registerHelper('slugify', (str) => String(str).toLowerCase().replace(/\s+/g, '-'));
+
 export function loadTemplates(themeName) {
   const dir = join('themes', themeName, 'templates');
 
@@ -38,6 +40,9 @@ export function loadTemplates(themeName) {
 }
 
 export function render(templateName, data) {
+  if (!templates[templateName]) {
+    throw new Error(`Template "${templateName}" not found. Available templates: ${Object.keys(templates).join(', ')}`);
+  }
   const inner = templates[templateName](data);
   return baseTemplate({ ...data, body: inner });
 }
